@@ -106,10 +106,22 @@ eliUN(X,N,X):- N < 1,!.
 eliUN([_|B],N,[]):-lengthAux(B,L), T is N - 1,L=< T,!.
 eliUN([X|B],N,[X|R]):-eliUN(B,N,R).
 
-
-
+% Palindrome List
 palindrome(L) :- invert(L,L).
 
 invert([],[]):-!.
 invert([X],[X]):-!.
 invert([P1|C],L):-invert(C,X),append(X,[P1],L).
+
+% True or false -> list in order 
+order([]):-true,!.
+order([_]):-true,!.
+order([X,X2]):- X > X2,false,!.
+order([X,X2|_]):- X > X2,false.
+order([X,X2|B]):-X =< X2,order([X2|B]).
+
+% Delete the repeat element
+delRepeat([],[]):-!.
+delRepeat([X],[X]):-!.
+delRepeat([X,X2|B],R):- X = X2, delRepeat([X2|B],R).
+delRepeat([X,X2|B],[X|R]):- X \= X2, delRepeat([X2|B],R).
